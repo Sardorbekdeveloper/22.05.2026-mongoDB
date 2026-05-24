@@ -3,15 +3,24 @@ const { Schema, model } = require("mongoose");
 const Book = new Schema({
   title: {
     type: String,
-    required: true
+    required: true,
+    trim: true,
+    minlength: [2, "minimal nom"],
+    maxlength: [150, "maximal nom"]
+    
   },
   pages: {
     type: Number,
-    required: true
+    required: true,
+    min: [1, "sahifa min qiymat"],
+    max: [10000, "sahifa max qiymati"]
   },
   published_year: {
     type: Number,
-    required: true
+    required: true,
+     min: 1000, 
+    max:  new Date().getFullYear()
+
   },
   genre: {
     type: String,
@@ -24,7 +33,8 @@ const Book = new Schema({
   },
   price: {
     type: Number,
-    required: true
+    required: true,
+     min: [0, "narx manfiy bo'lishi mumkin emas"]
   },
   description: {
     type: String,

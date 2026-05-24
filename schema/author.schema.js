@@ -3,11 +3,19 @@ const { Schema, model } = require("mongoose");
 const Author = new Schema({
   full_name: {
     type: String,
-    required: true
+    required: true,
+    minlength: 3,
+    maxlength: 70
   },
   birth_year: {
     type: Date,
-    required: true
+    required: true,
+     validate: {
+      validator: function(value) {
+        return value < new Date();
+      },
+      message: "xato"
+    }
   },
   death_year: {
     type: String,
@@ -15,7 +23,10 @@ const Author = new Schema({
   },
   bio: {
     type: String,
-    required: true
+    required: true,
+     trim: true,
+    minlength: [20, "juda qisqa"],
+    maxlength: [5000, "juda uzun"]
   },
   period: {
     type: String,
@@ -28,11 +39,15 @@ const Author = new Schema({
   },
   work: {
     type: String,
-    required: true
+    required: true,
+     trim: true,
+    minlength: [2, "nomi juda qisqa"]
   },
   region: {
     type: String,
-    required: true
+    required: true,
+     trim: true,
+    minlength: [2, "joy nomi juda qisqa"]
   }
 }, {
   versionKey: false,
