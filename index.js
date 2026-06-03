@@ -3,6 +3,7 @@ const cors = require("cors")
 const connectDB = require("./config/db.config")
 const authorRouter = require("./router/author.routes")
 const bookRouter = require("./router/books.routes");
+const errorMiddleware = require("./middleware/error.middleware");
 require("dotenv").config()
 
 const app = express()
@@ -16,6 +17,7 @@ connectDB()
 // Router
 app.use(authorRouter)
 app.use(bookRouter)
+app.use(errorMiddleware)
 
 
 app.listen(PORT, () => {
