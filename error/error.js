@@ -1,5 +1,6 @@
 module.exports = class CustomErrorHandler extends Error{
 constructor(status, message, errors) {
+  super(message) 
 this.status = status
 this.error = errors
 }
