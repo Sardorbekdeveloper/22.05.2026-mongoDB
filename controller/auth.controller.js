@@ -4,6 +4,7 @@ const sendEmail = require("../utils/email-sender");
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
 
+const { access_token, refresh_token } = require("../utils/token-generator");
 
 const register = async (req, res) => {
     try {
@@ -74,7 +75,7 @@ const access = access_token(payload)
 const refresh = refresh_token(payload)
 
 res.cookie("accessToken", access, {httpOnly: true, maxAge: 60 * 1000 *15})
-res.cookie("refreshToken", access, {httpOnly:true, maxAge: 60*1000*60*24*7})
+res.cookie("refreshToken", refresh, {httpOnly:true, maxAge: 60*1000*60*24*7})
 
 
 await AuthSchema.findByIdAndUpdate(
@@ -140,8 +141,39 @@ const login = async (req, res) => {
 };
 
 
+
+const refreshToken = async (req, res) => {
+    try {
+        const token = req.cookies?.refreshToken || req.body.refreshToken;
+
+        if (!token) {
+            return res.status(401).json({ message: "Refresh token topilmadi" });
+        }
+
+            const decoded = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
+
+        const payload = {
+            id: decoded.id,
+            email: decoded.email,
+            role: decoded.role
+        };
+
+        const newAccessToken = access_token(payload);
+
+        res.status(200).json({
+            message: "Token muvaffaqiyatli yangilandi",
+            accessToken: newAccessToken
+        });
+    } catch (error) {
+        res.status(401).json({ message: "Yaroqsiz yoki muddati o'tgan refresh token" });
+    }
+};
+
+
+
 module.exports = {
     register,
     verify,
     login,
+    refreshToken
 };
