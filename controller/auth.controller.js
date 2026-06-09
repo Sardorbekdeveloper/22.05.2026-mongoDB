@@ -97,6 +97,40 @@ res.status(200).json({
 
 const login = async (req, res) => {
     try {
+        const { email, password } = req.body;
+
+      
+        const foundedUser = await AuthSchema.findOne({ email });
+
+        if (!foundedUser) {
+            throw CustomErrorHandler.UnAuthorized("User not found");
+        }
+
+        
+        const decode = await bcrypt.compare(password, foundedUser.password);
+
+        if (decode) {
+       
+            const randomCode = Array.from({ length: 6 }, () => Math.floor(Math.random() * 9)).join("");
+
+           
+            const dateNow = Date.now() + 120000;
+
+   
+            await sendEmail(email, randomCode);
+
+            
+            await AuthSchema.findByIdAndUpdate(foundedUser._id, { 
+                otp: randomCode, 
+                otpTime: dateNow 
+            });
+
+            res.status(200).json({
+                message: "Please check your email"
+            });
+        } else {
+            throw CustomErrorHandler.UnAuthorized("Wrong password");
+        }
 
     } catch (error) {
         res.status(500).json({
