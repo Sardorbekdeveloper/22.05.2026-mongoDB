@@ -16,7 +16,7 @@ module.exports = function authorization(req, res, next) {
             throw CustomErrorHandler.BadRequest("Bearer not found");
         }
 
-        // Tokenni tekshirish (Skrinshotdagi SEKRET_KEY muhit o'zgaruvchisidan olinmoqda)
+     
         const decode = jwt.verify(partOfToken, process.env.SEKRET_KEY);
         req.user = decode;
 

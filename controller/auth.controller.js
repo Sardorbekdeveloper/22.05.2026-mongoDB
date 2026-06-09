@@ -70,12 +70,12 @@ const verify = async (req, res) => {
 
 console.log("SECRET_KEY:", process.env.SECRET_KEY)
 
+const access = access_token(payload)
+const refresh = refresh_token(payload)
 
-const token = jwt.sign(
-  payload,
-  process.env.SECRET_KEY,
-  { expiresIn: "15d" }
-)
+res.cookie("accessToken", access, {httpOnly: true, maxAge: 60 * 1000 *15})
+res.cookie("refreshToken", access, {httpOnly:true, maxAge: 60*1000*60*24*7})
+
 
 await AuthSchema.findByIdAndUpdate(
   foundedUser._id,
@@ -84,7 +84,7 @@ await AuthSchema.findByIdAndUpdate(
 
 res.status(200).json({
   message: "Success",
-  token
+  token: access
 })
 
   }
