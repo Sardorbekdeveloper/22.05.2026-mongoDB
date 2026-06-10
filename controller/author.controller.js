@@ -15,7 +15,7 @@ const getAllAuthors = async (req, res, next) => {
 
 const addAuthor = async (req, res, next) => {
   try {
-    const { full_name, birth_year, death_year, bio, period, work, region } =
+    const { full_name, birth_year, death_year, bio, period, work, region, picture} =
       req.body;
 
     await AuthorSchema.create({
@@ -26,6 +26,7 @@ const addAuthor = async (req, res, next) => {
       period,
       work,
       region,
+      picture: "http://localhost:4001/uploads/" + req.file.filename
     });
 
     res.status(201).json({
