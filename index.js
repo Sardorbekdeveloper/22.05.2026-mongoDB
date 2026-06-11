@@ -21,8 +21,12 @@ app.use(express.urlencoded({
 
 connectDB()
 
-const uploadPath = path.join(__dirname, "..", "uploads", "images")
-console.log(uploadPath);
+//app.use("/uploads", express.static(path.join(__dirname, "uploads/images)) )
+
+
+
+
+
 
 // Router
 app.use(authorRouter)

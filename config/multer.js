@@ -38,8 +38,13 @@ const fileFilter = (req, file, cb) => {
     cb(null, true)
 }
 
+
+console.log("Multer loaded")
+console.log(uploadPath)
+
 module.exports = multer({
     storage,
     fileFilter,
     limits: 1024 * 1024 * 5
 })
+
