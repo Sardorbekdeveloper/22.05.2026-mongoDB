@@ -8,7 +8,14 @@ const authRouter = require("./router/auth.routes")
 const cookieParser = require("cookie-parser")
 const path = require("path")
 
+
 require("dotenv").config()
+
+const logger = require("./utils/logger");
+logger.info("Application started");
+logger.error("Test error");
+logger.warn("Test warning");
+
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -22,7 +29,6 @@ app.use(express.urlencoded({
 connectDB()
 
 //app.use("/uploads", express.static(path.join(__dirname, "uploads/images)) )
-
 
 
 

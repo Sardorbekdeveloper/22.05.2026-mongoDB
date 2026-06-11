@@ -1,0 +1,15 @@
+{
+  message: 'Application started',
+  level: 'info',
+  timestamp: '2026-06-11T04:43:42.883Z'
+}
+{
+  message: 'Test error',
+  level: 'error',
+  timestamp: '2026-06-11T04:43:42.889Z'
+}
+{
+  message: 'Test warning',
+  level: 'warn',
+  timestamp: '2026-06-11T04:43:42.890Z'
+}
